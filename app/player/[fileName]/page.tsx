@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { _Object } from '@aws-sdk/client-s3';
 import { usePathname } from 'next/navigation';
 import { getFileUrl } from '@/app/actions/s3.actions';
+import PdfViewer from '@/components/pdfViewer';
 
 const FilePage = ({ params }: { params: { fileName: string; }; }) => {
 	const { fileName } = params;
@@ -33,26 +34,19 @@ const FilePage = ({ params }: { params: { fileName: string; }; }) => {
 		);
 	};
 
-	// return (
-	// 	<iframe
-	// 		src={fileUrl}
-	// 		className='h-screen w-screen'
-	// 	/>
-	// );
-
 	return (
 		<object
 			data={fileUrl}
 			type="application/pdf"
 			className="h-screen w-screen"
 		>
-			<embed
-				src={fileUrl}
-				type="application/pdf"
-				className="h-screen w-screen"
-			/>
+			<PdfViewer fileUrl={fileUrl} />
 		</object>
 	);
+
+	// return (
+	// 	<PdfViewer fileUrl={fileUrl} />
+	// );
 };
 
 export default FilePage;
