@@ -38,7 +38,7 @@ const FilePage = ({ params }: { params: { fileName: string; }; }) => {
 		<object
 			data={fileUrl}
 			type="application/pdf"
-			className="h-screen w-screen"
+			className="min-h-screen w-screen"
 		>
 			<PdfViewer fileUrl={fileUrl} />
 		</object>

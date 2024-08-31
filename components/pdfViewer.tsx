@@ -44,7 +44,7 @@ const PdfViewer = ({ fileUrl }: { fileUrl: string }) => {
 	};
 
 	return (
-		<div className="Example__container__document" ref={setContainerRef}>
+		<div className="min-h-screen w-screen" ref={setContainerRef}>
 			<Document file={fileUrl} onLoadSuccess={onDocumentLoadSuccess} options={options}>
 				{Array.from(new Array(numPages), (_el, index) => (
 					<Page
