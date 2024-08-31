@@ -27,7 +27,7 @@ export const getFileUrl = async (Key: string) => {
 	});
 
 	try {
-		const url = await getSignedUrl(s3Client, command, { expiresIn: 600 }); // URL expires in 1 hour
+		const url = await getSignedUrl(s3Client, command, { expiresIn: 600 }); // URL expires in 10 min
 		return url;
 	} catch (error) {
 		console.error('Error generating pre-signed URL', error);

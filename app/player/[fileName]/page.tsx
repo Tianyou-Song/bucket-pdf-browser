@@ -41,8 +41,8 @@ const FilePage = ({ params }: { params: { fileName: string; }; }) => {
 	// );
 
 	return (
-		<embed
-			src={fileUrl}
+		<object
+			data={fileUrl}
 			type="application/pdf"
 			className="h-screen w-screen"
 		/>
