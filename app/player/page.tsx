@@ -47,7 +47,7 @@ const PlayerPage = () => {
 		return (
 			<Link
 				href={`player/${fileNameHref}`}
-				className="text-2xl text-blue-400 hover:underline active:text-red-400"
+				className="text-xl text-blue-400 hover:underline active:text-red-400"
 			>
 				{trimmedFileName}
 			</Link>
@@ -56,10 +56,10 @@ const PlayerPage = () => {
 
 	return (
 		<div
-			className="p-16 flex flex-col items-center gap-8"
+			className="flex flex-col items-center gap-8 min-w-screen min-h-screen justify-center"
 		>
 			<h1
-				className="text-4xl font-bold"
+				className="text-2xl font-bold"
 			>
 				Player Resrouces
 			</h1>

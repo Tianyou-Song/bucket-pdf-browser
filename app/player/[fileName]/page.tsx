@@ -3,12 +3,10 @@
 import { useEffect, useState } from 'react';
 import { _Object } from '@aws-sdk/client-s3';
 import { usePathname } from 'next/navigation';
-import PDFViewer from '@/utils/pdf-viewer';
-import { fetchFileUrl } from '@/app/actions/frontend.actions';
+import { getFileUrl } from '@/app/actions/s3.actions';
 
 const FilePage = ({ params }: { params: { fileName: string; }; }) => {
 	const { fileName } = params;
-	// const fileNameDisplay = fileName.replace(/_/g, ' ');
 	const fileResourceName = `${fileName.replace(/_/g, ' ')}.pdf`;
 
 	const pathName = usePathname();
@@ -20,7 +18,7 @@ const FilePage = ({ params }: { params: { fileName: string; }; }) => {
 
 	useEffect(() => {
 		const fetchData = async () => {
-			const fileUrl = await fetchFileUrl(fileKey);
+			const fileUrl = await getFileUrl(fileKey);
 			if (!fileUrl) return;
 			setFileUrl(fileUrl);
 		};
@@ -35,9 +33,18 @@ const FilePage = ({ params }: { params: { fileName: string; }; }) => {
 		);
 	};
 
+	// return (
+	// 	<iframe
+	// 		src={fileUrl}
+	// 		className='h-screen w-screen'
+	// 	/>
+	// );
+
 	return (
-		<PDFViewer
-			fileUrl={fileUrl}
+		<embed
+			src={fileUrl}
+			type="application/pdf"
+			className="h-screen w-screen"
 		/>
 	);
 };
