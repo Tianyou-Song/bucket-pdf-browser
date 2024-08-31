@@ -63,15 +63,21 @@ const PlayerPage = () => {
 			>
 				Player Resrouces
 			</h1>
-			<ul
-				className="flex flex-col gap-4"
-			>
-				{files.map(file => (
-					<li key={file.Key}>
-						{renderFile(file)}
-					</li>
-				))}
-			</ul>
+			{files.length ?
+				<ul
+					className="flex flex-col gap-4"
+				>
+					{files.map(file => (
+						<li key={file.Key}>
+							{renderFile(file)}
+						</li>
+					))}
+				</ul>
+				:
+				<div>
+					loading...
+				</div>
+			}
 		</div>
 	);
 };
