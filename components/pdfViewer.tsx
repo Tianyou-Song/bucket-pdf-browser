@@ -81,7 +81,7 @@ const PdfViewer = ({ fileUrl }: { fileUrl: string }) => {
 	return (
 		<div className="min-h-screen w-screen" ref={setContainerRef}>
 			<div
-				className="absolute top-0 left-0 h-full w-1/2 cursor-pointer"
+				className="absolute top-0 left-0 h-full w-[50vw] cursor-pointer"
 				onClick={handlePreviousPage}
 				onTouchStart={handleTouchStart}
 				onTouchMove={handleTouchMove}
@@ -89,7 +89,7 @@ const PdfViewer = ({ fileUrl }: { fileUrl: string }) => {
 				style={{ zIndex: 10 }}
 			/>
 			<div
-				className="absolute top-0 right-0 h-full w-1/2 cursor-pointer"
+				className="absolute top-0 right-0 h-full w-[50vw] cursor-pointer"
 				onClick={handleNextPage}
 				onTouchStart={handleTouchStart}
 				onTouchMove={handleTouchMove}

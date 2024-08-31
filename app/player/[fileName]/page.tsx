@@ -43,10 +43,6 @@ const FilePage = ({ params }: { params: { fileName: string; }; }) => {
 			<PdfViewer fileUrl={fileUrl} />
 		</object>
 	);
-
-	// return (
-	// 	<PdfViewer fileUrl={fileUrl} />
-	// );
 };
 
 export default FilePage;
