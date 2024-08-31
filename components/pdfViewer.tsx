@@ -13,7 +13,7 @@ import type { PDFDocumentProxy } from 'pdfjs-dist';
 // 	import.meta.url,
 // ).toString();
 
-pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
+pdfjs.GlobalWorkerOptions.workerSrc = '/pdf.worker.min.mjs';
 
 const options = {
 	cMapUrl: '/cmaps/',
