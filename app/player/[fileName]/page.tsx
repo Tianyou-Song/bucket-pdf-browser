@@ -3,10 +3,13 @@
 import { useEffect, useState } from 'react';
 import { _Object } from '@aws-sdk/client-s3';
 import { usePathname } from 'next/navigation';
-import { getFileUrl } from '@/app/actions/s3.actions';
 import PdfViewer from '@/components/pdfViewer';
+import { checkIsSessionValid } from '@/app/actions/client-auth';
+import { fetchFileUrl } from '@/app/actions/s3-client';
+import { useRouter } from 'next/navigation';
 
 const FilePage = ({ params }: { params: { fileName: string; }; }) => {
+	const router = useRouter();
 	const { fileName } = params;
 	const fileResourceName = `${fileName.replace(/_/g, ' ')}.pdf`;
 
@@ -19,12 +22,18 @@ const FilePage = ({ params }: { params: { fileName: string; }; }) => {
 
 	useEffect(() => {
 		const fetchData = async () => {
-			const fileUrl = await getFileUrl(fileKey);
+			const sessionValid = await checkIsSessionValid();
+			if (!sessionValid) {
+				router.push('/login');
+				return;
+			}
+
+			const fileUrl = await fetchFileUrl(fileKey);
 			if (!fileUrl) return;
 			setFileUrl(fileUrl);
 		};
 		fetchData();
-	}, [fileKey]);
+	}, [fileKey, router]);
 
 	if (!fileUrl) {
 		return (

@@ -1,17 +1,26 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { listPlayerContents } from '../actions/s3.actions';
 import { _Object } from '@aws-sdk/client-s3';
 import Link from 'next/link';
+import { checkIsSessionValid } from '@/app/actions/client-auth';
+import  {useRouter } from 'next/navigation';
+import { fetchListPlayerContents } from '@/app/actions/s3-client';
 
 const PlayerPage = () => {
+	const router = useRouter();
 	const [files, setFiles] = useState<_Object[]>([]);
 
 	useEffect(() => {
 		const fetchFiles = async () => {
+			const sessionValid = await checkIsSessionValid();
+			if (!sessionValid) {
+				router.push('/login');
+				return;
+			}
+
 			try {
-				const response = await listPlayerContents();
+				const response = await fetchListPlayerContents();
 				if (!response) {
 					return;
 				};
@@ -36,7 +45,7 @@ const PlayerPage = () => {
 		};
 
 		fetchFiles();
-	}, []);
+	}, [router]);
 
 	const renderFile = (file: _Object) => {
 		const fileName = file.Key?.split('/').pop();
