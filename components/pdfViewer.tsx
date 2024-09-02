@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useState } from 'react';
+import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { useResizeObserver } from '@wojtekmaj/react-hooks';
 import { pdfjs, Document, Page } from 'react-pdf';
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
@@ -9,15 +9,6 @@ import 'react-pdf/dist/esm/Page/TextLayer.css';
 import type { PDFDocumentProxy } from 'pdfjs-dist';
 
 pdfjs.GlobalWorkerOptions.workerSrc = '/pdf.worker.mjs';
-
-const options = {
-	cMapUrl: '/cmaps/',
-	standardFontDataUrl: '/standard_fonts/',
-};
-
-const resizeObserverOptions = {};
-
-const maxWidth = 800;
 
 const PdfViewer = ({ fileUrl }: { fileUrl: string }) => {
 	const [containerHeight, setContainerHeight] = useState<number>();
@@ -37,10 +28,10 @@ const PdfViewer = ({ fileUrl }: { fileUrl: string }) => {
 		}
 	}, []);
 
-	useResizeObserver(containerRef, resizeObserverOptions, onResize);
+	useResizeObserver(containerRef, {}, onResize);
 
-	const onDocumentLoadSuccess = ({ numPages: nextNumPages }: PDFDocumentProxy): void => {
-		setNumPages(nextNumPages);
+	const onDocumentLoadSuccess = (pdf: PDFDocumentProxy) => {
+		setNumPages(pdf.numPages);
 	};
 
 	const handleNextPage = () => {
@@ -72,31 +63,58 @@ const PdfViewer = ({ fileUrl }: { fileUrl: string }) => {
 			handlePreviousPage();
 		}
 	};
-
 	return (
 		<div className="min-h-screen w-screen" ref={setContainerRef}>
 			<div
-				className="absolute top-0 left-0 h-full w-[50vw] cursor-pointer"
-				onClick={handlePreviousPage}
-				onTouchStart={handleTouchStart}
-				onTouchMove={handleTouchMove}
-				onTouchEnd={handleTouchEnd}
-				style={{ zIndex: 10 }}
-			/>
-			<div
-				className="absolute top-0 right-0 h-full w-[50vw] cursor-pointer"
-				onClick={handleNextPage}
-				onTouchStart={handleTouchStart}
-				onTouchMove={handleTouchMove}
-				onTouchEnd={handleTouchEnd}
-				style={{ zIndex: 10 }}
-			/>
-			<Document file={fileUrl} onLoadSuccess={onDocumentLoadSuccess} options={options}>
-				<Page
-					pageNumber={currentPage}
-					width={containerWidth}
+				className="h-8 flex items-center justify-center bg-slate-800"
+			>
+				<button
+					className="w-8 bg-slate-600 px-2 mx-2"
+					onClick={handlePreviousPage}
+				>
+					-
+				</button>
+				<input
+					className="w-16 bg-slate-200 text-black px-2"
+					onChange={(e) => setCurrentPage(parseInt(e.target.value))}
+					type="number"
+					value={currentPage}
 				/>
-			</Document>
+				<button
+					className="w-8 bg-slate-600 px-2 mx-2 mr-4"
+					onClick={handleNextPage}
+				>
+					+
+				</button>
+				/ {numPages}
+			</div>
+			<div
+				className="relative"
+			>
+				<div
+					className="absolute top-0 left-0 h-full w-[50vw] cursor-pointer"
+					onClick={handlePreviousPage}
+					onTouchStart={handleTouchStart}
+					onTouchMove={handleTouchMove}
+					onTouchEnd={handleTouchEnd}
+					style={{ zIndex: 10 }}
+				/>
+				<div
+					className="absolute top-0 right-0 h-full w-[50vw] cursor-pointer"
+					onClick={handleNextPage}
+					onTouchStart={handleTouchStart}
+					onTouchMove={handleTouchMove}
+					onTouchEnd={handleTouchEnd}
+					style={{ zIndex: 10 }}
+				/>
+				<Document file={fileUrl} onLoadSuccess={onDocumentLoadSuccess}>
+					<Page
+
+						pageNumber={currentPage}
+						width={containerWidth}
+					/>
+				</Document>
+			</div>
 		</div>
 	);
 };
