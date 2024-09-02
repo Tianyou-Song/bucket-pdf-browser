@@ -34,19 +34,19 @@ const FilePage = ({ params }: { params: { fileName: string; }; }) => {
 		);
 	};
 
-	// return (
-	// 	<object
-	// 		data={fileUrl}
-	// 		type="application/pdf"
-	// 		className="min-h-screen w-screen"
-	// 	>
-	// 		<PdfViewer fileUrl={fileUrl} />
-	// 	</object>
-	// );
-
 	return (
-		<PdfViewer fileUrl={fileUrl} />
+		<object
+			data={fileUrl}
+			type="application/pdf"
+			className="min-h-screen w-screen"
+		>
+			<PdfViewer fileUrl={fileUrl} />
+		</object>
 	);
+
+	// return (
+	// 	<PdfViewer fileUrl={fileUrl} />
+	// );
 };
 
 export default FilePage;
