@@ -55,14 +55,20 @@ const PdfViewer = ({ fileUrl }: { fileUrl: string }) => {
 	};
 
 	const handleTouchEnd = () => {
-		if (touchStartX - touchEndX > 50) {
+		if (!containerWidth) return;
+
+		const distance = touchEndX - touchStartX;
+		const threshold = containerWidth / 2;
+
+		if (distance < (-1 * threshold)) {
 			handleNextPage();
 		}
 
-		if (touchStartX - touchEndX < -50) {
+		if (distance > threshold) {
 			handlePreviousPage();
 		}
 	};
+
 	return (
 		<div className="min-h-screen w-screen" ref={setContainerRef}>
 			<div
@@ -109,7 +115,6 @@ const PdfViewer = ({ fileUrl }: { fileUrl: string }) => {
 				/>
 				<Document file={fileUrl} onLoadSuccess={onDocumentLoadSuccess}>
 					<Page
-
 						pageNumber={currentPage}
 						width={containerWidth}
 					/>
