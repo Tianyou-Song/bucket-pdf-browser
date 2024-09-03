@@ -35,7 +35,8 @@ const PdfViewer = ({ fileUrl }: { fileUrl: string }) => {
 	};
 
 	const handleNextPage = () => {
-		if (currentPage < (numPages || 0)) {
+		if (!numPages) return;
+		if (currentPage < numPages) {
 			setCurrentPage(currentPage + 1);
 		}
 	};
@@ -100,17 +101,17 @@ const PdfViewer = ({ fileUrl }: { fileUrl: string }) => {
 				<div
 					className="absolute top-0 left-0 h-full w-[50vw] cursor-pointer"
 					onClick={handlePreviousPage}
-					onTouchStart={handleTouchStart}
-					onTouchMove={handleTouchMove}
-					onTouchEnd={handleTouchEnd}
+					// onTouchStart={handleTouchStart}
+					// onTouchMove={handleTouchMove}
+					// onTouchEnd={handleTouchEnd}
 					style={{ zIndex: 10 }}
 				/>
 				<div
 					className="absolute top-0 right-0 h-full w-[50vw] cursor-pointer"
 					onClick={handleNextPage}
-					onTouchStart={handleTouchStart}
-					onTouchMove={handleTouchMove}
-					onTouchEnd={handleTouchEnd}
+					// onTouchStart={handleTouchStart}
+					// onTouchMove={handleTouchMove}
+					// onTouchEnd={handleTouchEnd}
 					style={{ zIndex: 10 }}
 				/>
 				<Document file={fileUrl} onLoadSuccess={onDocumentLoadSuccess}>
